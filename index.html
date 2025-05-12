@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>МДК 02.02</title>
+    <style>
+        :root {
+            --primary-color: #6a0dad;
+            --primary-light: #9c27b0;
+            --secondary-color: #f3e5f5;
+            --text-color: #333;
+            --bg-color: #fff;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+        
+        header {
+            background-color: var(--bg-color);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .nav-container {
+            display: flex;
+            justify-content: center;
+            padding: 1rem 0;
+        }
+        
+        .nav-btn {
+            background: none;
+            border: none;
+            color: var(--text-color);
+            padding: 0.8rem 1.5rem;
+            margin: 0 0.5rem;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            border-radius: 30px;
+        }
+        
+        .nav-btn:hover, .nav-btn.active {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: var(--bg-color);
+            min-width: 200px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+            border-radius: 10px;
+            z-index: 1;
+            padding: 0.5rem 0;
+            opacity: 0;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+        }
+        
+        .dropdown:hover .dropdown-content {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .dropdown-content a {
+            color: var(--text-color);
+            padding: 0.8rem 1rem;
+            text-decoration: none;
+            display: block;
+            transition: all 0.2s ease;
+        }
+        
+        .dropdown-content a:hover {
+            background-color: var(--secondary-color);
+            color: var(--primary-color);
+            padding-left: 1.5rem;
+        }
+        
+        .main-content {
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        
+        .gallery-item {
+            height: 300px;
+            background-color: #f5f5f5;
+            border-radius: 10px;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+            position: relative;
+        }
+        
+        .gallery-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(106, 13, 173, 0.2);
+        }
+        
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .section {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .section.active {
+            display: block;
+        }
+        
+        h1 {
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            font-size: 2.5rem;
+            text-align: center;
+        }
+        
+        h2 {
+            color: var(--primary-light);
+            margin: 1.5rem 0;
+            font-size: 1.8rem;
+        }
+        
+        p {
+            margin-bottom: 1rem;
+            line-height: 1.8;
+        }
+        
+        .map-container {
+            height: 400px;
+            width: 100%;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-top: 2rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        footer {
+            background-color: var(--primary-color);
+            color: white;
+            text-align: center;
+            padding: 2rem;
+            margin-top: 3rem;
+        }
+        
+        .info-card {
+            background-color: var(--secondary-color);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+        
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="nav-container">
+            <div class="dropdown">
+                <button class="nav-btn">Главная</button>
+                <div class="dropdown-content">
+                    <a href="#" onclick="showSection('home-photos')">Фото</a>
+                    <a href="#" onclick="showSection('home-bio')">Жизнеописание</a>
+                    <a href="#" onclick="showSection('home-hobbies')">Увлечения</a>
+                    <a href="#" onclick="showSection('home-contacts')">Контакты</a>
+                </div>
+            </div>
+            
+            <div class="dropdown">
+                <button class="nav-btn">ВкМис</button>
+                <div class="dropdown-content">
+                    <a href="#" onclick="showSection('vkmis-photos')">Фото</a>
+                    <a href="#" onclick="showSection('vkmis-structure')">Структура</a>
+                    <a href="#" onclick="showSection('vkmis-events')">События</a>
+                    <a href="#" onclick="showSection('vkmis-map')">Карта</a>
+                </div>
+            </div>
+            
+            <div class="dropdown">
+                <button class="nav-btn">Профессия</button>
+                <div class="dropdown-content">
+                    <a href="#" onclick="showSection('profession-dream')">Мечта</a>
+                    <a href="#" onclick="showSection('profession-infographic')">Инфографика</a>
+                    <a href="#" onclick="showSection('profession-development')">Развитие</a>
+                </div>
+            </div>
+        </div>
+    </header>
+    
+    <div class="main-content">
+        <!-- Главная - Фото (отображается по умолчанию) -->
+        <section id="home-photos" class="section active">
+            <h1>МДК 02.02</h1>
+            <div class="gallery">
+                <div class="gallery-item">
+                    <img src="фотка 1.jpg" alt="Фото 1">
+                </div>
+                <div class="gallery-item">
+                    <img src="photo_2025-05-12_16-53-22.jpg" alt="Фото 2">
+                </div>
+            </div>
+        </section>
+        
+        <!-- Главная - Жизнеописание -->
+        <section id="home-bio" class="section">
+            <h1>Жизнеописание</h1>
+            <div class="info-card">
+                <h2>Моя история</h2>
+                <p>Здесь не будет ничего веселого, потому что я сам по себе не весёлый человек. Я гнался за мечтой, в которой было всё прекрасно, а в итоге, не успев оглянуться, потерял всех.</p>
+            </div>
+        </section>
+        
+        <!-- Главная - Увлечения -->
+        <section id="home-hobbies" class="section">
+            <h1>Увлечения</h1>
+            <div class="info-grid">
+                <div class="info-card">
+                    <h2>Мои увлечения</h2>
+                    <p>В свободное время я занимаюсь спортом. Помимо этого, я занимаюсь карате и тренировками с катаной, которой хорошо владею.</p>
+                <div class="info-card">
+            </div>
+        </section>
+        
+        <!-- Главная - Контакты -->
+        <section id="home-contacts" class="section">
+            <h1>Контакты</h1>
+            <div class="info-card">
+                <p>Телефон: +7 (995) 415-94-XX</p>
+            </div>
+        </section>
+        
+        <!-- ВкМис - Фото -->
+        <section id="vkmis-photos" class="section">
+            <h1>ВкМис - Фото</h1>
+            <div class="gallery">
+                <div class="gallery-item">
+                    <img src="photo_2025-05-12_17-06-34.jpg" alt="ВкМис Фото 1">
+                </div>
+                <div class="gallery-item">
+                    <img src="photo_2025-05-12_17-06-37.jpg" alt="ВкМис Фото 2">
+                </div>
+            </div>
+        </section>
+        
+        <!-- ВкМис - Структура -->
+        <section id="vkmis-structure" class="section">
+            <h1>ВкМис - Структура</h1>
+            <div class="info-card">
+                <h2>Организационная структура</h2>
+                <p>Волгоградский колледж машиностроения и связи — это учебное заведение, расположенное в городе Волгограде по адресу: улица Армии, 64, корпус 2. Колледж предлагает широкий спектр образовательных программ в области машиностроения, информационных технологий и связи, готовя квалифицированных специалистов для современного рынка труда. 
+
+                    Структура колледжа включает несколько факультетов, каждый из которых имеет свои специализированные кафедры. Основные направления подготовки охватывают как теоретические, так и практические аспекты профессий, что позволяет студентам приобретать необходимые знания и навыки. 
+                    
+                    В колледже также функционируют лаборатории, учебные мастерские и компьютерные классы, что обеспечивает высокое качество образовательного процесса. Помимо учебной деятельности, колледж активно участвует в научно-исследовательской работе и сотрудничает с предприятиями региона, что способствует интеграции студентов в профессиональную среду и повышению их конкурентоспособности на рынке труда.</p>
+            </div>
+        </section>
+        
+        <!-- ВкМис - События -->
+        <section id="vkmis-events" class="section">
+            <h1>ВкМис - События</h1>
+            <div class="info-grid">
+                <div class="info-card">
+                    <h2>События колледжа</h2>
+                    <p>1. День открытых дверей: Это событие, когда колледж приглашает будущих студентов и их родителей ознакомиться с учебным заведением, образовательными программами и жизнью в колледже. Часто проводятся экскурсии, мастер-классы и встречи с преподавателями.
+
+                        2. Фестивали и ярмарки: Многие учебные заведения организуют культурные фестивали, где студенты могут продемонстрировать свои таланты, например, в музыке, танцах или театральных постановках. Это отличная возможность для студентов установить знакомства и насладиться разнообразной культурной программой.
+                        
+                        3. Спортивные мероприятия: Колледжи часто участвуют в межучебных соревнованиях по различным видам спорта. Это может быть как футбольный матч, так и состязания по легкой атлетике. Такие мероприятия собирают большое количество зрителей и создают атмосферу единства и поддержки.
+                        
+                        4. Научные симпозиумы: Студенты и преподаватели могут представлять свои исследования на научных симпозиумах. Это важное событие для академического сообщества, где обсуждаются новейшие достижения и открытия в различных областях.
+                        
+                        5. Церемонии вручения дипломов: Это одно из самых значимых событий в жизни студентов. Церемонии обычно сопровождаются торжественными речами, вручением дипломов и празднованием завершения учебного пути.</p>
+                </div>
+        </section>
+
+        
+        <!--  Мечта -->
+        <section id="profession-dream" class="section">
+            <h1>Профессия - Мечта</h1>
+            <div class="info-card">
+                <h2>Моя мечта</h2>
+                <p>Моей мечтой является не эта профессия, а кое-что другое, так скажем, моё хобби, которым я занимался, но из-за многих проблем прекратил. Я планирую возобновить это хобби, но как минимум мне необходимо разобраться с военкоматом и закончить колледж.</p>
+            </div>
+        </section>
+        
+        <!--  Инфографика -->
+        <section id="profession-infographic" class="section">
+            <h1>Профессия</h1>
+            <div class="info-card">
+                <p> Оператор информационных систем и веб-дизайнер – это специалист, который совмещает техническую работу с системным администрированием и творческую – с дизайном интерфейсов.
+            </div>
+            </div>
+        </section>
+        
+        <!-- Развитие -->
+        <section id="profession-development" class="section">
+            <h1>Развитие</h1>
+            <div class="info-card">
+                <p>Оператор информационных систем и веб-дизайнер: развитие и перспективы
+
+                    В современном мире профессии оператора информационных систем и веб-дизайнера становятся всё более востребованными. Эти специальности открывают множество возможностей для карьерного роста и развития.
+                    
+                    Горизонтальный рост:
+                    Специалисты могут развиваться в различных направлениях, таких как:
+                    
+                    • Frontend-разработка: углубление знаний в HTML, CSS и JavaScript, а также освоение популярных фреймворков, таких как React или Vue.js.
+                    
+                    • SEO (поисковая оптимизация): изучение методов повышения видимости сайтов в поисковых системах, что становится критически важным для успешного онлайн-бизнеса.
+                    
+                    • Motion-дизайн: создание анимаций и видеографики для улучшения пользовательского опыта и привлечения внимания к контенту.
+                    
+                    • UX/UI-дизайн: углубленное изучение принципов проектирования пользовательского интерфейса и взаимодействия, что позволяет создавать более интуитивно понятные и привлекательные продукты.
+                    
+                    • Data-Driven Design: использование данных и аналитики для принятия обоснованных решений в дизайне и разработке, что способствует созданию более эффективных решений.
+                    
+                    Вертикальный рост:
+                    Существует возможность продвижения по карьерной лестнице:
+                    
+                    • Team Lead: управление командами разработчиков и дизайнеров, координация проектов и обеспечение их успешной реализации.
+                    
+                    • CRM/ERP-системы: работа с системами управления взаимоотношениями с клиентами и ресурсами предприятия, что помогает оптимизировать бизнес-процессы.
+                    
+                    • AI-инструменты: интеграция искусственного интеллекта в рабочие процессы, что позволяет повысить эффективность и автоматизировать рутинные задачи.
+                    
+                    Будущее профессий:
+                    Спрос на кросс-специалистов растёт, так как компании ищут универсальных сотрудников, способных выполнять несколько ролей одновременно. Автоматизация процессов смещает фокус на креативность и инновации, что открывает новые горизонты для специалистов. Работа в стартапах и в сфере govtech (государственные технологии) становится всё более привлекательной, предоставляя возможность влиять на развитие новых решений и технологий.
+                    
+                    Таким образом, карьера оператора информационных систем и веб-дизайнера предлагает множество путей для профессионального роста и развития, открывая двери к новым возможностям в быстро меняющемся мире технологий.</p>
+            </div>
+        </section>
+    </div>
+    
+    <script>
+        function showSection(sectionId) {
+            // Скрываем все секции
+            document.querySelectorAll('.section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Показываем выбранную секцию
+            document.getElementById(sectionId).classList.add('active');
+            
+            // Обновляем активную кнопку в навигации
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            // Находим кнопку, которая открыла этот раздел
+            const links = document.querySelectorAll(`[onclick*="${sectionId}"]`);
+            if (links.length > 0) {
+                const parentDropdown = links[0].closest('.dropdown');
+                if (parentDropdown) {
+                    parentDropdown.querySelector('.nav-btn').classList.add('active');
+                }
+            }
+        }
+        
+        // По умолчанию делаем активной кнопку "Главная"
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelector('.dropdown .nav-btn').classList.add('active');
+        });
+    </script>
+</body>
+</html>
